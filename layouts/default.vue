@@ -1,10 +1,40 @@
 <template>
   <div>
-    <nuxt />
+    <Navbar />
+    <nuxt :key="$route.fullPath" />
   </div>
 </template>
 
+<script>
+import Navbar from '@/components/Navbar.vue'
+
+export default {
+  components: { Navbar },
+  head() {
+    return {
+      title: 'Rick and Morty',
+      link: [
+        {
+          rel: 'stylesheet',
+          href:
+            'https://fonts.googleapis.com/css?family=Acme&display=swap" rel="stylesheet'
+        }
+      ]
+    }
+  }
+}
+</script>
+
 <style>
+@font-face {
+  font-family: 'RushHour';
+  src: url('~assets/fonts/RushHourDemo.otf') format('otf'),
+    url('~assets/fonts/RushHourDemo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

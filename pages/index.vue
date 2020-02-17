@@ -1,34 +1,76 @@
 <template>
   <div class="page-container">
     <div class="inner">
-      <div></div>
+      <div class="container">
+        <section class="main">
+          <div class="columns is-multiline">
+            <character-component
+              v-for="character in results"
+              :key="character.id"
+              :item="character"
+              class="column is-4"
+            />
+          </div>
+          <base-pagination
+            :current-page="currentPage"
+            :page-count="pageCount"
+            class="characters-list__pagination"
+            @nextPage="pageChangeHandle('next')"
+            @previousPage="pageChangeHandle('previous')"
+            @loadPage="pageChangeHandle"
+          />
+        </section>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import charactersQuery from '~/apollo/queries/character/characters'
+import axios from '~/plugins/axios'
+import CharacterComponent from '@/components/Character.vue'
+import BasePagination from '@/components/BasePagination.vue'
 
 export default {
+  watchQuery: ['page'],
+  components: {
+    CharacterComponent,
+    BasePagination
+  },
+  async asyncData(context) {
+    const {
+      data: { info, results }
+    } = await axios.get('/character/?page=' + context.route.query.page || 1)
+    return { info, results }
+  },
   data() {
     return {
-      characters: [],
-      query: ''
+      currentPage: Number(this.$route.query.page) || 1
     }
   },
-  apollo: {
-    characters: {
-      prefetch: true,
-      query: charactersQuery
+  computed: {
+    pageCount() {
+      return this.info.pages
     }
   },
-  mounted() {
-    console.log(this.characters)
+  methods: {
+    pageChangeHandle(value) {
+      switch (value) {
+        case 'next':
+          this.currentPage += 1
+          break
+        case 'previous':
+          this.currentPage -= 1
+          break
+        default:
+          this.currentPage = value
+      }
+      this.$router.push({ name: 'index', query: { page: this.currentPage } })
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 .page-container {
   margin: 0 auto;
   min-height: 100vh;
@@ -36,35 +78,17 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: url('~assets/rick-morty.png');
+  background: #fceeb5;
   background-size: cover;
 }
 
 .inner {
   min-height: 100vh;
   width: 100%;
-  background-color: hsla(217, 26%, 27%, 0.85);
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.main {
+  width: 100%;
+  padding: 150px 0px;
 }
 </style>
