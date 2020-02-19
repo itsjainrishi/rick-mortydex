@@ -3,8 +3,9 @@
     <base-button
       :disabled="isPreviousButtonDisabled"
       @click.native="previousPage"
+      :class="[{ 'is-disabled': isPreviousButtonDisabled }]"
     >
-      ←
+      Prev
     </base-button>
     <base-pagination-trigger
       v-for="paginationTrigger in paginationTriggers"
@@ -17,8 +18,12 @@
       :page-number="paginationTrigger"
       @loadPage="onLoadPage"
     />
-    <base-button :disabled="isNextButtonDisabled" @click.native="nextPage">
-      →
+    <base-button
+      :disabled="isNextButtonDisabled"
+      @click.native="nextPage"
+      :class="[{ 'is-disabled': isNextButtonDisabled }]"
+    >
+      Next
     </base-button>
   </div>
 </template>
@@ -43,7 +48,7 @@ export default {
     },
     visiblePagesCount: {
       type: Number,
-      default: 5
+      default: 7
     }
   },
   computed: {
@@ -67,7 +72,7 @@ export default {
             return pagintationTriggersArray[0] + index
           }
         )
-        pagintationTriggers.push(pageCount)
+        if (pageCount !== 1) pagintationTriggers.push(pageCount)
         return pagintationTriggers
       }
 
@@ -105,3 +110,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.base-pagination__description--current {
+  background: darkseagreen;
+  color: white;
+}
+
+.is-disabled {
+  cursor: not-allowed;
+}
+</style>

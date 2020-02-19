@@ -3,6 +3,13 @@
     <div class="inner">
       <div class="container">
         <section class="main">
+          <search-form
+            @search="getSearchResults"
+            @filterChanged="getFilteredResults"
+            @clearQuery="getSearchResults"
+            :species-filter="speciesFilter"
+            :search-query="searchQuery"
+          />
           <div class="columns is-multiline">
             <character-component
               v-for="character in results"
@@ -14,6 +21,7 @@
           <base-pagination
             :current-page="currentPage"
             :page-count="pageCount"
+            :visible-pages-count="visiblePagesCount"
             class="characters-list__pagination"
             @nextPage="pageChangeHandle('next')"
             @previousPage="pageChangeHandle('previous')"
@@ -29,30 +37,65 @@
 import axios from '~/plugins/axios'
 import CharacterComponent from '@/components/Character.vue'
 import BasePagination from '@/components/BasePagination.vue'
+import SearchForm from '@/components/SearchForm.vue'
 
 export default {
-  watchQuery: ['page'],
+  watchQuery: true,
   components: {
     CharacterComponent,
-    BasePagination
+    BasePagination,
+    SearchForm
   },
   async asyncData(context) {
+    const queryString = Object.keys(context.route.query).reduce((acc, elem) => {
+      if (elem !== 'page') acc += '&' + elem + '=' + context.route.query[elem]
+      return acc
+    }, '')
+    console.log('maaka')
+    console.log('hello: ' + queryString)
+    console.log('SPecies: ' + context.route.query.species)
+    const queryPage = context.route.query.page || 1
     const {
       data: { info, results }
-    } = await axios.get('/character/?page=' + context.route.query.page || 1)
+    } = await axios.get('/character/?page=' + queryPage + queryString)
     return { info, results }
   },
   data() {
     return {
-      currentPage: Number(this.$route.query.page) || 1
+      currentPage: Number(this.$route.query.page) || 1,
+      speciesFilter: this.$route.query.species || 'all',
+      searchQuery: this.$route.query.name || ''
     }
   },
   computed: {
     pageCount() {
       return this.info.pages
+    },
+    visiblePagesCount() {
+      return this.pageCount > 7 ? 7 : this.pageCount
     }
   },
   methods: {
+    getSearchResults(name) {
+      const queryObject = { ...this.$route.query }
+      if (name === '') {
+        delete queryObject.name
+      } else {
+        queryObject.name = name
+      }
+      queryObject.page = 1
+      this.$router.push({ name: 'index', query: queryObject })
+    },
+    getFilteredResults(filterSettings) {
+      const queryObject = { ...this.$route.query }
+      if (filterSettings === 'all') {
+        delete queryObject.species
+      } else {
+        queryObject.species = filterSettings
+      }
+      queryObject.page = 1
+      this.$router.push({ name: 'index', query: queryObject })
+    },
     pageChangeHandle(value) {
       switch (value) {
         case 'next':
@@ -64,13 +107,15 @@ export default {
         default:
           this.currentPage = value
       }
-      this.$router.push({ name: 'index', query: { page: this.currentPage } })
+      const queryObject = { ...this.$route.query }
+      queryObject.page = this.currentPage
+      this.$router.push({ name: 'index', query: queryObject })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .page-container {
   margin: 0 auto;
   min-height: 100vh;
@@ -90,5 +135,9 @@ export default {
 .main {
   width: 100%;
   padding: 150px 0px;
+}
+
+.columns.is-multiline {
+  margin-top: 100px;
 }
 </style>

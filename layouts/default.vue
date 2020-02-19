@@ -52,6 +52,7 @@ html {
 *:after {
   box-sizing: border-box;
   margin: 0;
+  outline: 0;
 }
 
 .button--green {

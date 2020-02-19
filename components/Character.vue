@@ -42,7 +42,7 @@ export default {
 }
 
 .character-image {
-  background: linear-gradient(#92bca6, #a2ccb6);
+  background: darkseagreen;
   width: 50%;
   position: relative;
   border-radius: 10px 0 0 10px;

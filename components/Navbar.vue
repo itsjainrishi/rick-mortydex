@@ -7,8 +7,8 @@
 
       <a
         :class="['navbar-burger', 'burger', { 'is-active': navbarActive }]"
-        @click="toggleNavbar"
         role="button"
+        @click="toggleNavbar"
       >
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>

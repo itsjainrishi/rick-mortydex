@@ -1,7 +1,7 @@
 <template>
-  <span class="base-pagination-trigger" @click="onClick">
+  <button class="base-pagination-trigger" @click="onClick">
     {{ pageNumber }}
-  </span>
+  </button>
 </template>
 <script>
 export default {
@@ -18,3 +18,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.base-pagination-trigger {
+  background: white;
+  border: 1px solid darkseagreen;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+</style>
