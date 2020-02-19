@@ -6,7 +6,7 @@
       </div>
       <div class="character-content">
         <h2 class="title">{{ item.name }}</h2>
-        <div class="basic-info columns">
+        <div class="basic-info columns is-mobile">
           <div class="location is-flex column is-7">
             <span class="subtitle">Location</span>
             <span>{{ item.location.name }}</span>
@@ -73,6 +73,10 @@ img {
   bottom: 40px;
   right: 30px;
   left: 30px;
+
+  .subtitle {
+    margin-bottom: 10px;
+  }
 }
 
 .location {
@@ -86,5 +90,43 @@ img {
 
 .status {
   flex-direction: column;
+}
+
+@media screen and (max-width: 768px) {
+  .character-image {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .character-image {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .character-card {
+    flex-direction: column;
+  }
+
+  .character-image {
+    position: absolute;
+    top: -35%;
+    left: 25%;
+    width: 50%;
+  }
+
+  .character-content {
+    height: 175px;
+    position: absolute;
+    top: 75px;
+  }
+
+  .basic-info {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    left: 30px;
+  }
 }
 </style>

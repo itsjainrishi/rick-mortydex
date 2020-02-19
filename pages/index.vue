@@ -3,30 +3,36 @@
     <div class="inner">
       <div class="container">
         <section class="main">
-          <search-form
-            :species-filter="speciesFilter"
-            :search-query="searchQuery"
-            @search="getSearchResults"
-            @filterChanged="getFilteredResults"
-            @clearQuery="getSearchResults"
-          />
-          <div class="columns is-multiline">
-            <character-component
-              v-for="character in results"
-              :key="character.id"
-              :item="character"
-              class="column is-4"
+          <div class="search">
+            <search-form
+              :species-filter="speciesFilter"
+              :search-query="searchQuery"
+              @search="getSearchResults"
+              @filterChanged="getFilteredResults"
+              @clearQuery="getSearchResults"
             />
           </div>
-          <base-pagination
-            :current-page="currentPage"
-            :page-count="pageCount"
-            :visible-pages-count="visiblePagesCount"
-            class="characters-list__pagination"
-            @nextPage="pageChangeHandle('next')"
-            @previousPage="pageChangeHandle('previous')"
-            @loadPage="pageChangeHandle"
-          />
+          <div class="page-content">
+            <div class="columns is-multiline">
+              <character-component
+                v-for="character in results"
+                :key="character.id"
+                :item="character"
+                class="character column is-4 is-half-desktop-only"
+              />
+            </div>
+          </div>
+          <div class="pagination">
+            <base-pagination
+              :current-page="currentPage"
+              :page-count="pageCount"
+              :visible-pages-count="visiblePagesCount"
+              class="characters-list__pagination"
+              @nextPage="pageChangeHandle('next')"
+              @previousPage="pageChangeHandle('previous')"
+              @loadPage="pageChangeHandle"
+            />
+          </div>
         </section>
       </div>
     </div>
@@ -141,7 +147,42 @@ export default {
   padding: 150px 0px;
 }
 
-.columns.is-multiline {
+.page-content {
   margin-top: 100px;
+}
+
+@media screen and (min-width: 769px) {
+  .page-content {
+    margin-bottom: 30px;
+  }
+
+  .pagination {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main {
+    padding: 150px 30px;
+  }
+
+  .page-content {
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .main {
+    padding: 150px 20px;
+  }
+
+  .page-content {
+    margin-top: 50px;
+  }
+
+  .character {
+    margin-bottom: 100px;
+  }
 }
 </style>

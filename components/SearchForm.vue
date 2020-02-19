@@ -1,5 +1,5 @@
 <template>
-  <div class="form-container">
+  <div class="form-container is-hidden-touch">
     <div class="search-form">
       <div class="inner-form">
         <div class="search is-flex">
@@ -309,7 +309,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .inner-form {
     flex-wrap: wrap;
     padding: 20px;
