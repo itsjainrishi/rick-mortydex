@@ -46,16 +46,23 @@ export default {
     BasePagination,
     SearchForm
   },
-  async asyncData(context) {
+  asyncData(context) {
     const queryString = Object.keys(context.route.query).reduce((acc, elem) => {
       if (elem !== 'page') acc += '&' + elem + '=' + context.route.query[elem]
       return acc
     }, '')
     const queryPage = context.route.query.page || 1
-    const {
-      data: { info, results }
-    } = await axios.get('/character/?page=' + queryPage + queryString)
-    return { info, results }
+    return axios
+      .get('/character/?page=' + queryPage + queryString)
+      .then(({ data }) => {
+        return {
+          info: data.info,
+          results: data.results
+        }
+      })
+      .catch((e) => {
+        context.error({ statusCode: 404, message: 'Uh! oh page not found' })
+      })
   },
   data() {
     return {

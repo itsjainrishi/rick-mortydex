@@ -31,7 +31,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .character-card {
   border-radius: 10px;
   opacity: 0.6;
@@ -39,6 +39,12 @@ export default {
   height: 250px;
   display: flex;
   position: relative;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 
 .character-image {

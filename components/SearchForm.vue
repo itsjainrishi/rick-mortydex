@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <form class="search-form">
+    <div class="search-form">
       <div class="inner-form">
         <div class="search is-flex">
           <div class="input-field first-wrap">
@@ -9,6 +9,7 @@
               v-model="name"
               type="text"
               placeholder="Search character via name"
+              autocomplete="off"
             />
           </div>
           <div class="input-field second-wrap">
@@ -72,7 +73,7 @@
           </div>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -142,7 +143,7 @@ export default {
   padding: 15px;
 }
 
-.form-container form {
+.form-container .search-form {
   width: 100%;
   max-width: 790px;
   margin-bottom: 0;
@@ -298,8 +299,12 @@ export default {
   }
 }
 
+.radio:hover {
+  color: #50c058;
+}
+
 @media screen and (max-width: 992px) {
-  .form-container form .inner-form .input-field {
+  .form-container .search-form .inner-form .input-field {
     height: 50px;
   }
 }
