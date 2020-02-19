@@ -8,7 +8,7 @@
               id="search"
               v-model="name"
               type="text"
-              placeholder="Enter Keywords?"
+              placeholder="Search character via name"
             />
           </div>
           <div class="input-field second-wrap">
@@ -35,6 +35,7 @@
             </button>
           </div>
         </div>
+        <span v-if="errors.length" class="search-error">{{ errors[0] }}</span>
         <div class="search-filters columns is-multiline">
           <div
             v-if="searchQueryReference.length > 0"
@@ -92,22 +93,34 @@ export default {
       choices: this.speciesFilter,
       name: this.searchQuery,
       searchQueryReference: this.searchQuery,
-      filters: ['Human', 'Alien', 'Robot', 'Unknown', 'All']
+      filters: ['Human', 'Alien', 'Robot', 'Unknown', 'All'],
+      errors: []
+    }
+  },
+  computed: {
+    searchDisabled() {
+      return this.name.length < 4 || this.errors.length > 0
     }
   },
   watch: {
     choices() {
       this.$emit('filterChanged', this.choices)
-    }
-  },
-  computed: {
-    searchDisabled() {
-      return this.name.length === 0
+    },
+    name() {
+      this.errors = []
     }
   },
   methods: {
     onClick() {
-      this.$emit('search', this.name)
+      this.errors = []
+      if (this.name.length < 4) {
+        this.errors.push('Name should atleast be 4 characters long')
+      } else if (!/^[a-z ]+$/i.test(this.name)) {
+        this.errors.push('Name can only contain space seperated alphabets')
+      }
+      if (!this.errors.length > 0) {
+        this.$emit('search', this.name)
+      }
     },
     clearQuery() {
       this.name = ''
@@ -169,6 +182,11 @@ export default {
 
 .first-wrap {
   flex-grow: 1;
+}
+
+.search-error {
+  color: red;
+  margin: 10px 0;
 }
 
 .second-wrap {

@@ -4,11 +4,11 @@
       <div class="container">
         <section class="main">
           <search-form
+            :species-filter="speciesFilter"
+            :search-query="searchQuery"
             @search="getSearchResults"
             @filterChanged="getFilteredResults"
             @clearQuery="getSearchResults"
-            :species-filter="speciesFilter"
-            :search-query="searchQuery"
           />
           <div class="columns is-multiline">
             <character-component
@@ -51,9 +51,6 @@ export default {
       if (elem !== 'page') acc += '&' + elem + '=' + context.route.query[elem]
       return acc
     }, '')
-    console.log('maaka')
-    console.log('hello: ' + queryString)
-    console.log('SPecies: ' + context.route.query.species)
     const queryPage = context.route.query.page || 1
     const {
       data: { info, results }

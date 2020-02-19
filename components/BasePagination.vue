@@ -2,26 +2,28 @@
   <div class="base-pagination">
     <base-button
       :disabled="isPreviousButtonDisabled"
-      @click.native="previousPage"
       :class="[{ 'is-disabled': isPreviousButtonDisabled }]"
+      @click.native="previousPage"
     >
       Prev
     </base-button>
     <base-pagination-trigger
       v-for="paginationTrigger in paginationTriggers"
       :key="paginationTrigger"
-      :class="{
-        'base-pagination__description--current':
-          paginationTrigger === currentPage
-      }"
-      class="base-pagination__description"
+      :class="[
+        'base-pagination__description',
+        {
+          'base-pagination__description--current':
+            paginationTrigger === currentPage
+        }
+      ]"
       :page-number="paginationTrigger"
       @loadPage="onLoadPage"
     />
     <base-button
       :disabled="isNextButtonDisabled"
-      @click.native="nextPage"
       :class="[{ 'is-disabled': isNextButtonDisabled }]"
+      @click.native="nextPage"
     >
       Next
     </base-button>
