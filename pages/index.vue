@@ -21,8 +21,14 @@
                   :key="character.id"
                   :item="character"
                   class="character column is-4 is-half-desktop-only"
+                  @showCharacterModal="showCharacterModal"
                 />
               </div>
+              <character-modal
+                :isActive="isModalActive"
+                :characterInfo="characterInfo"
+                @closeModal="isActive = false"
+              />
             </div>
             <div class="pagination">
               <base-pagination
@@ -48,6 +54,7 @@ import Navbar from '@/components/Navbar.vue'
 import CharacterComponent from '@/components/Character.vue'
 import BasePagination from '@/components/BasePagination.vue'
 import SearchForm from '@/components/SearchForm.vue'
+import CharacterModal from '@/components/CharacterModal.vue'
 
 export default {
   watchQuery: true,
@@ -55,7 +62,8 @@ export default {
     Navbar,
     CharacterComponent,
     BasePagination,
-    SearchForm
+    SearchForm,
+    CharacterModal
   },
   asyncData(context) {
     const queryString = Object.keys(context.route.query).reduce((acc, elem) => {
@@ -80,7 +88,9 @@ export default {
   },
   data() {
     return {
-      currentPage: Number(this.$route.query.page) || 1
+      currentPage: Number(this.$route.query.page) || 1,
+      isActive: false,
+      characterInfo: {}
     }
   },
   computed: {
@@ -89,6 +99,9 @@ export default {
     },
     visiblePagesCount() {
       return this.pageCount > 7 ? 7 : this.pageCount
+    },
+    isModalActive() {
+      return this.isActive
     }
   },
   methods: {
@@ -126,6 +139,10 @@ export default {
       const queryObject = { ...this.$route.query }
       queryObject.page = this.currentPage
       this.$router.push({ name: 'index', query: queryObject })
+    },
+    showCharacterModal(value) {
+      this.isActive = true
+      this.characterInfo = value
     }
   }
 }

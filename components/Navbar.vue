@@ -118,6 +118,7 @@ a {
   box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -10px;
   background: #fceeb5;
   z-index: 9999;
+  font-family: 'Acme', sans-serif;
 }
 
 svg {

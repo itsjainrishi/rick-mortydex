@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="character-card">
+    <div class="character-card" @click="showModal">
       <div class="character-image">
         <img :src="item.image" alt="Placeholder image" />
       </div>
@@ -27,6 +27,11 @@ export default {
     item: {
       type: Object
     }
+  },
+  methods: {
+    showModal() {
+      this.$emit('showCharacterModal', this.item)
+    }
   }
 }
 </script>
@@ -40,6 +45,7 @@ export default {
   display: flex;
   position: relative;
   cursor: pointer;
+  user-select: none;
 
   &:hover {
     opacity: 1;
