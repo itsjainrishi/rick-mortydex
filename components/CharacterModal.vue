@@ -13,25 +13,45 @@
           </figure>
         </div>
         <div class="character-info">
-          <div class="location">
-            <span>Location:</span>
-            <span>{{ characterInfo.location.name }}</span>
+          <div class="location columns is-mobile">
+            <span
+              class="column is-offset-3-desktop is-2-mobile is-2-desktop is-offset-3-mobile"
+            >
+              Location:
+            </span>
+            <span class="column">{{ characterInfo.location.name }}</span>
           </div>
-          <div class="status">
-            <span>Status:</span>
-            <span>{{ characterInfo.status }}</span>
+          <div class="status columns is-mobile">
+            <span
+              class="column is-offset-3-desktop is-2-mobile is-2-desktop is-offset-3-mobile"
+            >
+              Status:
+            </span>
+            <span class="column">{{ characterInfo.status }}</span>
           </div>
-          <div class="origin">
-            <span>Origin:</span>
-            <span>{{ characterInfo.origin.name }}</span>
+          <div class="origin columns is-mobile">
+            <span
+              class="column is-offset-3-desktop is-2-mobile is-2-desktop is-offset-3-mobile"
+            >
+              Origin:
+            </span>
+            <span class="column">{{ characterInfo.origin.name }}</span>
           </div>
-          <div class="species">
-            <span>Species:</span>
-            <span>{{ characterInfo.species }}</span>
+          <div class="species columns is-mobile">
+            <span
+              class="column is-offset-3-desktop is-2-mobile is-2-desktop is-offset-3-mobile"
+            >
+              Species:
+            </span>
+            <span class="column">{{ characterInfo.species }}</span>
           </div>
-          <div class="gender">
-            <span>Gender:</span>
-            <span>{{ characterInfo.gender }}</span>
+          <div class="gender columns is-mobile">
+            <span
+              class="column is-offset-3-desktop is-2-mobile is-2-desktop is-offset-3-mobile"
+            >
+              Gender:
+            </span>
+            <span class="column">{{ characterInfo.gender }}</span>
           </div>
         </div>
 
@@ -79,53 +99,39 @@ export default {
   font-family: 'Acme', sans-serif;
 }
 
+.modal-card {
+  padding: 20px;
+}
+
 .modal-card-body {
   min-height: 450px;
   background: #fceeb5;
 }
 
 .character-info {
-  position: relative;
-  span {
-    &:nth-child(2n + 1) {
-      position: absolute;
-      left: 160px;
-    }
+  .columns {
+    margin: 0;
+  }
 
-    &:nth-child(2n) {
-      position: absolute;
-      left: 250px;
-    }
+  .column {
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  span {
+    text-align: left;
+    white-space: nowrap;
   }
 }
 
-.location {
-  span {
-    top: 10px;
+@media screen and (max-width: 550px) {
+  .column.is-offset-3-mobile {
+    margin-left: 2%;
   }
-}
 
-.status {
-  span {
-    top: 30px;
-  }
-}
-
-.origin {
-  span {
-    top: 50px;
-  }
-}
-
-.species {
-  span {
-    top: 70px;
-  }
-}
-
-.gender {
-  span {
-    top: 90px;
+  .column.is-2-mobile {
+    width: 40%;
   }
 }
 </style>

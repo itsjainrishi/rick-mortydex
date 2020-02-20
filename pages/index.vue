@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="navigation">
-      <navbar @search="getSearchResults" @filterChanged="getFilteredResults" />
+      <navbar
+        :schwiftyActive="isSchwiftyModalActive"
+        @search="getSearchResults"
+        @filterChanged="getFilteredResults"
+        @openSchwiftyModal="toggleSchwifty"
+      />
     </div>
     <div class="page-container">
       <div class="inner">
@@ -29,6 +34,10 @@
                 :characterInfo="characterInfo"
                 @closeModal="isActive = false"
               />
+              <schwifty-modal
+                :isSchwiftyActive="isSchwiftyModalActive"
+                @closeSchwiftyModal="toggleSchwifty"
+              />
             </div>
             <div class="pagination">
               <base-pagination
@@ -55,6 +64,7 @@ import CharacterComponent from '@/components/Character.vue'
 import BasePagination from '@/components/BasePagination.vue'
 import SearchForm from '@/components/SearchForm.vue'
 import CharacterModal from '@/components/CharacterModal.vue'
+import SchwiftyModal from '@/components/SchwiftyModal.vue'
 
 export default {
   watchQuery: true,
@@ -63,7 +73,8 @@ export default {
     CharacterComponent,
     BasePagination,
     SearchForm,
-    CharacterModal
+    CharacterModal,
+    SchwiftyModal
   },
   asyncData(context) {
     const queryString = Object.keys(context.route.query).reduce((acc, elem) => {
@@ -90,6 +101,7 @@ export default {
     return {
       currentPage: Number(this.$route.query.page) || 1,
       isActive: false,
+      isSchwiftyActive: false,
       characterInfo: {}
     }
   },
@@ -102,6 +114,9 @@ export default {
     },
     isModalActive() {
       return this.isActive
+    },
+    isSchwiftyModalActive() {
+      return this.isSchwiftyActive
     }
   },
   methods: {
@@ -143,6 +158,9 @@ export default {
     showCharacterModal(value) {
       this.isActive = true
       this.characterInfo = value
+    },
+    toggleSchwifty() {
+      this.isSchwiftyActive = !this.isSchwiftyActive
     }
   }
 }
@@ -184,7 +202,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1023px) {
   .main {
     padding: 150px 30px;
   }

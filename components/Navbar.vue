@@ -2,7 +2,11 @@
   <nav class="navbar" role="navigation" aria-label="main-navigation">
     <div class="navbar-brand">
       <nuxt-link class="navbar-item img" to="/">
-        <img src="~/assets/R.svg" width="70" @click="closeNavbar" />
+        <img
+          src="~/assets/rickandmorty.png"
+          width="150px"
+          @click="closeNavbar"
+        />
       </nuxt-link>
 
       <a
@@ -55,6 +59,17 @@
           </div>
         </div>
       </div>
+      <div class="navbar-end">
+        <div class="navbar-item schwifty">
+          <button
+            class="btn-schwifty"
+            :disabled="schwiftyActive"
+            @click="openSchwifty"
+          >
+            Get Schwifty
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -66,6 +81,12 @@ import BaseSelect from '@/components/BaseSelect.vue'
 export default {
   mixins: [SearchMixin],
   components: { BaseSelect },
+  props: {
+    schwiftyActive: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       navbarActive: false
@@ -80,39 +101,17 @@ export default {
     },
     onFilterChange(value) {
       this.$emit('filterChanged', value)
+    },
+    openSchwifty() {
+      this.$emit('openSchwiftyModal')
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-a {
-  color: rgb(168, 178, 209);
-
-  &:hover {
-    background: transparent;
-    color: rgb(100, 255, 218);
-  }
-
-  &.nuxt-link-active,
-  &.nuxt-link-exact-active {
-    background: transparent;
-    color: rgb(100, 255, 218);
-  }
-
-  &.resume:hover,
-  &.resume:focus,
-  &.resume:focus-within,
-  &.resume:visited {
-    background: transparent;
-    color: rgb(100, 255, 218);
-    border: none;
-  }
-}
-
 .navbar {
   margin: auto;
-  position: fixed;
   width: 100%;
   height: 70px;
   box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -10px;
@@ -121,19 +120,22 @@ a {
   font-family: 'Acme', sans-serif;
 }
 
-svg {
-  height: 18px;
-  width: 18px;
-  height: 3.0625em;
-  line-height: 3.0625em;
+.navbar-burger {
+  height: 70px;
 }
 
 .navbar-item {
   animation-name: fadeInTop;
   animation-duration: 1s;
   animation-fill-mode: both;
+  padding: 0;
+
+  .navbar-link {
+    padding: 0;
+  }
+
   img {
-    max-height: 40px;
+    max-height: 70px;
   }
 }
 
@@ -171,15 +173,26 @@ svg {
   }
 }
 
-@media screen and (max-width: 1023px) {
-  .navbar-menu {
-    box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -10px;
+.btn-schwifty {
+  color: darkseagreen;
+  padding: 10px;
+  font-size: 20px;
+  background: transparent;
+  border: 2px solid darkseagreen;
+  border-radius: 3px;
+  font-family: 'Acme', sans-serif;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1023px) {
   .navbar-menu {
+    box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -10px;
     background: #fceeb5;
+    padding: 10px;
   }
 
   .touch-search .input {
@@ -190,6 +203,10 @@ svg {
       border: none;
       box-shadow: none;
     }
+  }
+
+  .btn-schwifty {
+    margin-top: 20px;
   }
 }
 </style>

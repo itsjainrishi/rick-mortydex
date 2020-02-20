@@ -92,6 +92,7 @@ export default {
   left: 0;
   right: 0;
   background-color: white;
+  z-index: 999;
 }
 
 .item {
