@@ -72,7 +72,10 @@ export default {
         }
       })
       .catch((e) => {
-        context.error({ statusCode: 404, message: 'Uh! oh page not found' })
+        context.error({
+          statusCode: 404,
+          message: 'Uh! No results for the query. Try different query/filters'
+        })
       })
   },
   data() {

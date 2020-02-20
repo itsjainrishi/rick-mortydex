@@ -11,7 +11,7 @@
         @click="
           selected = option
           open = false
-          $emit('filterChanged', option)
+          $emit('filterChanged', option.toLowerCase())
         "
       >
         {{ option }}

@@ -15,6 +15,11 @@
       </svg>
 
       <div class="title">{{ message }}</div>
+      <search-form
+        @search="getSearchResults"
+        @filterChanged="getFilteredResults"
+        @clearQuery="getSearchResults"
+      />
       <p v-if="statusCode === 404" class="description">
         <NuxtLink class="error-link" to="/">
           Back to the home page
@@ -25,8 +30,11 @@
 </template>
 
 <script>
+import SearchForm from '@/components/SearchForm.vue'
+
 export default {
   name: 'NuxtError',
+  components: { SearchForm },
   props: {
     error: {
       type: Object,
@@ -39,6 +47,28 @@ export default {
     },
     message() {
       return this.error.message
+    }
+  },
+  methods: {
+    getSearchResults(name) {
+      const queryObject = { ...this.$route.query }
+      if (name === '') {
+        delete queryObject.name
+      } else {
+        queryObject.name = name
+      }
+      queryObject.page = 1
+      this.$router.push({ name: 'index', query: queryObject })
+    },
+    getFilteredResults(filterSettings) {
+      const queryObject = { ...this.$route.query }
+      if (filterSettings === 'all') {
+        delete queryObject.species
+      } else {
+        queryObject.species = filterSettings
+      }
+      queryObject.page = 1
+      this.$router.push({ name: 'index', query: queryObject })
     }
   }
 }
@@ -66,20 +96,24 @@ export default {
   bottom: 0;
   background: #fceeb5;
 }
+
 .__nuxt-error-page .error {
-  max-width: 450px;
+  max-width: 750px;
 }
+
 .__nuxt-error-page .title {
   font-size: 1.5rem;
   margin-top: 15px;
   color: #47494e;
   margin-bottom: 8px;
 }
+
 .__nuxt-error-page .description {
   color: #7f828b;
   line-height: 21px;
   margin-bottom: 10px;
 }
+
 .__nuxt-error-page a {
   color: #7f828b !important;
   text-decoration: none;
