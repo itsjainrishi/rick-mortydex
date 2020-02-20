@@ -1,39 +1,42 @@
 <template>
-  <div class="page-container">
-    <div class="inner">
-      <div class="container">
-        <section class="main">
-          <div class="search">
-            <search-form
-              :species-filter="speciesFilter"
-              :search-query="searchQuery"
-              @search="getSearchResults"
-              @filterChanged="getFilteredResults"
-              @clearQuery="getSearchResults"
-            />
-          </div>
-          <div class="page-content">
-            <div class="columns is-multiline">
-              <character-component
-                v-for="character in results"
-                :key="character.id"
-                :item="character"
-                class="character column is-4 is-half-desktop-only"
+  <div>
+    <div class="navigation">
+      <navbar @search="getSearchResults" @filterChanged="getFilteredResults" />
+    </div>
+    <div class="page-container">
+      <div class="inner">
+        <div class="container">
+          <section class="main">
+            <div class="search">
+              <search-form
+                @search="getSearchResults"
+                @filterChanged="getFilteredResults"
+                @clearQuery="getSearchResults"
               />
             </div>
-          </div>
-          <div class="pagination">
-            <base-pagination
-              :current-page="currentPage"
-              :page-count="pageCount"
-              :visible-pages-count="visiblePagesCount"
-              class="characters-list__pagination"
-              @nextPage="pageChangeHandle('next')"
-              @previousPage="pageChangeHandle('previous')"
-              @loadPage="pageChangeHandle"
-            />
-          </div>
-        </section>
+            <div class="page-content">
+              <div class="columns is-multiline">
+                <character-component
+                  v-for="character in results"
+                  :key="character.id"
+                  :item="character"
+                  class="character column is-4 is-half-desktop-only"
+                />
+              </div>
+            </div>
+            <div class="pagination">
+              <base-pagination
+                :current-page="currentPage"
+                :page-count="pageCount"
+                :visible-pages-count="visiblePagesCount"
+                class="characters-list__pagination"
+                @nextPage="pageChangeHandle('next')"
+                @previousPage="pageChangeHandle('previous')"
+                @loadPage="pageChangeHandle"
+              />
+            </div>
+          </section>
+        </div>
       </div>
     </div>
   </div>
@@ -41,6 +44,7 @@
 
 <script>
 import axios from '~/plugins/axios'
+import Navbar from '@/components/Navbar.vue'
 import CharacterComponent from '@/components/Character.vue'
 import BasePagination from '@/components/BasePagination.vue'
 import SearchForm from '@/components/SearchForm.vue'
@@ -48,6 +52,7 @@ import SearchForm from '@/components/SearchForm.vue'
 export default {
   watchQuery: true,
   components: {
+    Navbar,
     CharacterComponent,
     BasePagination,
     SearchForm
@@ -72,9 +77,7 @@ export default {
   },
   data() {
     return {
-      currentPage: Number(this.$route.query.page) || 1,
-      speciesFilter: this.$route.query.species || 'all',
-      searchQuery: this.$route.query.name || ''
+      currentPage: Number(this.$route.query.page) || 1
     }
   },
   computed: {

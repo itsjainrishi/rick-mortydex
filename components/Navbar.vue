@@ -19,17 +19,21 @@
     <div :class="['navbar-menu', { 'is-active': navbarActive }]">
       <div class="navbar-start">
         <div class="navbar-item is-hidden-desktop touch-search">
-          <form>
-            <div class="field has-addons">
+          <form @submit.prevent="onSubmit">
+            <div class="field">
               <p class="control">
-                <input class="input" type="text" placeholder="Search" />
-              </p>
-
-              <p class="control">
-                <span class="icon"><i class="fas fa-search"></i></span>
+                <input
+                  v-model="name"
+                  class="input"
+                  type="text"
+                  placeholder="Search by Name"
+                />
               </p>
             </div>
           </form>
+        </div>
+        <div class="navbar-item is-hidden-desktop touch-search">
+          <base-select :options="filters" @filterChanged="onFilterChange" />
         </div>
       </div>
     </div>
@@ -37,7 +41,12 @@
 </template>
 
 <script>
+import SearchMixin from '@/mixins/SearchMixin.vue'
+import BaseSelect from '@/components/BaseSelect.vue'
+
 export default {
+  mixins: [SearchMixin],
+  components: { BaseSelect },
   data() {
     return {
       navbarActive: false
@@ -49,6 +58,9 @@ export default {
     },
     closeNavbar() {
       this.navbarActive = false
+    },
+    onFilterChange(value) {
+      this.$emit('filterChanged', value)
     }
   }
 }
@@ -108,6 +120,22 @@ svg {
 @media screen and (max-width: 1023px) {
   .navbar-menu {
     box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-menu {
+    background: #fceeb5;
+  }
+
+  .touch-search .input {
+    border: none;
+    &:focus,
+    &:focus-within {
+      outline: 0;
+      border: none;
+      box-shadow: none;
+    }
   }
 }
 </style>

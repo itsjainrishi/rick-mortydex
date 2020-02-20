@@ -1,15 +1,11 @@
 <template>
   <div>
-    <Navbar />
     <nuxt :key="$route.fullPath" />
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
-
 export default {
-  components: { Navbar },
   head() {
     return {
       title: 'Rick and Morty',

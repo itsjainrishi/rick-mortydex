@@ -2,44 +2,46 @@
   <div class="form-container is-hidden-touch">
     <div class="search-form">
       <div class="inner-form">
-        <div class="search is-flex">
-          <div class="input-field first-wrap">
-            <input
-              id="search"
-              v-model="name"
-              type="text"
-              placeholder="Search character via name"
-              autocomplete="off"
-            />
-          </div>
-          <div class="input-field second-wrap">
-            <button
-              :class="['btn-search', { 'is-disabled': searchDisabled }]"
-              type="button"
-              :disabled="searchDisabled"
-              @click="onClick"
-            >
-              <svg
-                class="svg-inline--fa fa-search fa-w-16"
-                aria-hidden="true"
-                data-prefix="fas"
-                data-icon="search"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
+        <form @submit.prevent="onSubmit">
+          <div class="search is-flex">
+            <div class="input-field first-wrap">
+              <input
+                id="search"
+                v-model="name"
+                type="text"
+                placeholder="Search character via name"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-field second-wrap">
+              <button
+                :class="['btn-search', { 'is-disabled': searchDisabled }]"
+                type="button"
+                :disabled="searchDisabled"
+                @click="onSubmit"
               >
-                <path
-                  fill="currentColor"
-                  d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
-                ></path>
-              </svg>
-            </button>
+                <svg
+                  class="svg-inline--fa fa-search fa-w-16"
+                  aria-hidden="true"
+                  data-prefix="fas"
+                  data-icon="search"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
         <span v-if="errors.length" class="search-error">{{ errors[0] }}</span>
         <div class="search-filters columns is-multiline">
           <div
-            v-if="searchQueryReference.length > 0"
+            v-if="searchQueryReference.length"
             class="search-query column is-12"
           >
             <div class="search-query-container is-flex">
@@ -78,24 +80,13 @@
 </template>
 
 <script>
+import SearchMixin from '@/mixins/SearchMixin.vue'
+
 export default {
-  props: {
-    speciesFilter: {
-      type: String,
-      default: 'all'
-    },
-    searchQuery: {
-      type: String,
-      default: ''
-    }
-  },
+  mixins: [SearchMixin],
   data() {
     return {
-      choices: this.speciesFilter,
-      name: this.searchQuery,
-      searchQueryReference: this.searchQuery,
-      filters: ['Human', 'Alien', 'Robot', 'Unknown', 'All'],
-      errors: []
+      choices: this.$route.query.species || 'all'
     }
   },
   computed: {
@@ -106,27 +97,6 @@ export default {
   watch: {
     choices() {
       this.$emit('filterChanged', this.choices)
-    },
-    name() {
-      this.errors = []
-    }
-  },
-  methods: {
-    onClick() {
-      this.errors = []
-      if (this.name.length < 4) {
-        this.errors.push('Name should atleast be 4 characters long')
-      } else if (!/^[a-z ]+$/i.test(this.name)) {
-        this.errors.push('Name can only contain space seperated alphabets')
-      }
-      if (!this.errors.length > 0) {
-        this.$emit('search', this.name)
-      }
-    },
-    clearQuery() {
-      this.name = ''
-      this.searchQueryReference = ''
-      this.$emit('clearQuery', this.name)
     }
   }
 }
