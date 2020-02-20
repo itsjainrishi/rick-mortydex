@@ -22,15 +22,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-family: 'RushHour';
-  src: url('~assets/fonts/RushHourDemo.otf') format('otf'),
-    url('~assets/fonts/RushHourDemo.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

@@ -3,7 +3,7 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <button class="delete" @click="closeModal" aria-label="close"></button>
+        <button class="delete" aria-label="close" @click="closeModal"></button>
       </header>
       <section class="modal-card-body">
         <div class="Animation">

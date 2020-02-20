@@ -79,8 +79,8 @@ import SearchMixin from '@/mixins/SearchMixin.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
 
 export default {
-  mixins: [SearchMixin],
   components: { BaseSelect },
+  mixins: [SearchMixin],
   props: {
     schwiftyActive: {
       type: Boolean,
@@ -103,6 +103,7 @@ export default {
       this.$emit('filterChanged', value)
     },
     openSchwifty() {
+      this.closeNavbar()
       this.$emit('openSchwiftyModal')
     }
   }

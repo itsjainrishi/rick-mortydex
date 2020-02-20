@@ -15,12 +15,9 @@
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/bulma": "^1.2.1",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "lazysizes": "^5.2.0",
     "node-sass": "^4.13.1",
     "nuxt": "^2.0.0",
-    "nuxt-responsive-loader": "^2.0.1",
-    "sass-loader": "^8.0.2",
-    "sharp": "^0.24.1"
+    "sass-loader": "^8.0.2"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",

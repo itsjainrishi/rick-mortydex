@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <navbar
-        :schwiftyActive="isSchwiftyModalActive"
+        :schwifty-active="isSchwiftyModalActive"
         @search="getSearchResults"
         @filterChanged="getFilteredResults"
         @openSchwiftyModal="toggleSchwifty"
@@ -30,12 +30,12 @@
                 />
               </div>
               <character-modal
-                :isActive="isModalActive"
-                :characterInfo="characterInfo"
+                :is-active="isModalActive"
+                :character-info="characterInfo"
                 @closeModal="isActive = false"
               />
               <schwifty-modal
-                :isSchwiftyActive="isSchwiftyModalActive"
+                :is-schwifty-active="isSchwiftyModalActive"
                 @closeSchwiftyModal="toggleSchwifty"
               />
             </div>

@@ -4,7 +4,7 @@
     <div v-if="characterInfo.name" class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ characterInfo.name }}</p>
-        <button class="delete" @click="closeModal" aria-label="close"></button>
+        <button class="delete" aria-label="close" @click="closeModal"></button>
       </header>
       <section class="modal-card-body">
         <div class="character-image">

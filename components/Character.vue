@@ -25,7 +25,8 @@
 export default {
   props: {
     item: {
-      type: Object
+      type: Object,
+      default: () => {}
     }
   },
   methods: {

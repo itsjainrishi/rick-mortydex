@@ -5,9 +5,9 @@
     </div>
     <div class="items" :class="{ selectHide: !open }">
       <div
-        class="item"
         v-for="(option, i) of options"
         :key="i"
+        class="item"
         @click="
           selected = option
           open = false
