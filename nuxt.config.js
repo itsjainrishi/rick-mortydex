@@ -65,5 +65,11 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  pwa: {
+    icon: {
+     /* icon options */
+      iconSrc: '~/assets/pwa.png'
+    }
   }
 }
