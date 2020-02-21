@@ -69,7 +69,7 @@ export default {
   pwa: {
     icon: {
      /* icon options */
-      iconSrc: '~/assets/pwa.png'
+      iconFileName: 'pwa.png'
     }
   }
 }
